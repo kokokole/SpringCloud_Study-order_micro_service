@@ -64,7 +64,8 @@ public class OrderController {
 //        orderDto.setTotalPrice(orderDetails.getQty() * orderDetails.getUnitPrice());
 
         //kafka에 주문정보 전달, send this order to kafka
-//        kafkaProducer.send("example-catalog-topic", orderDto); // catalog-service에 컨슈머에 등록한 값가 동일한 값으로 설정
+        kafkaProducer.send("example-catalog-topic", orderDto); // catalog-service에 컨슈머에 등록한 값가 동일한 값으로 설정
+        // DB를 1개만 쓸거면 jpa설정 및 kafka를 이와같이 설정
 //        orderProducer.send("orders", orderDto);
 //        ResponseOrder responseOrder = mapper.map(orderDto, ResponseOrder.class);
         log.info("After insert order data");
@@ -83,12 +84,12 @@ public class OrderController {
             result.add(new ModelMapper().map(v, ResponseOrder.class));
         });
 
-        try{
-            Thread.sleep(1000);
-            throw new Exception("장애발생");
-        }catch (InterruptedException e){
-            log.warn(e.getMessage());
-        }
+//        try{
+//            Thread.sleep(1000);
+//            throw new Exception("장애발생");
+//        }catch (InterruptedException e){
+//            log.warn(e.getMessage());
+//        }
 
         log.info("After received order data");
 
